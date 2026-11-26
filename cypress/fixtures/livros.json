@@ -1,0 +1,19 @@
+{
+    "livro1":{
+        "titulo":"Sucesso",
+        "autor":"Jorge Agusto",
+        "ISBN":"64523129",
+        "categoria":"Ficção",
+        "ano":"2023",
+        "quantidade":"5"
+        
+    },
+    "livro2": {
+        "titulo":"Como aprender a ser um QA",
+        "autor":"Pedro Jorge",
+        "ISBN":"123456",
+        "categoria":"Tecnologia",
+        "ano":"2023",
+        "quantidade":"5"
+    }
+}

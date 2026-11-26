@@ -3,7 +3,7 @@
 describe('Biblioteca - Validar Login',() => {
 
     beforeEach(() => {
-        cy.visit('http://127.0.0.1:5501/index.html');
+        cy.visit('/index.html');
     });
 
   it('Validar login com sucesso', () => {
@@ -29,7 +29,7 @@ describe('Biblioteca - Validar Login',() => {
     cy.get('[data-cy="register-message"]').should('have.text', 'Cadastro realizado com sucesso! Você já pode entrar.');
    });
 
-  it.only('Realizar login com E-mail Inválido', () => {   
+  it('Realizar login com E-mail Inválido', () => {   
     cy.get('#login-email').type('nevton@gmail.com')
     cy.get('[data-cy="login-password"]').type('Cypress123!')
     cy.get('button[data-cy="login-submit"]').click()
@@ -46,6 +46,34 @@ describe('Biblioteca - Validar Login',() => {
     cy.get('[data-cy="current-user"]').should('be.visible')
     cy.get('[data-cy="logout-button"]').click()
     cy.get('div[id="login-panel"] > h2').should('have.text', 'Acesse sua conta')
+    
+  });
+
+  it.only('Realizar login válido usando o fixtures', () => {
+    cy.fixture('usuarios').then((massaDados) =>{
+          const usuario = massaDados["valido"];
+          cy.get('#login-email').type(usuario.email)
+          cy.get('[data-cy="login-password"]').type(usuario.senha)
+          cy.get('button[data-cy="login-submit"]').click()
+
+    })
+          //Validar se a tela inicial de aplicação é exibida
+          cy.get('[data-cy="current-user"]').should('be.visible')
+          cy.get('[data-cy="current-user"]').should('have.text', 'QA Demonstração')
+  });
+
+  xit('Realizar login inválido usando o fixtures', () => {
+    cy.fixture('usuarios').then((massaDados) =>{
+          const usuario = massaDados["invalido"];
+          cy.get('#login-email').type(usuario.email)
+          cy.get('[data-cy="login-password"]').type(usuario.senha)
+          cy.get('button[data-cy="login-submit"]').click()
+    })
+
+          //Então mensagem de e-mail/senha inválida deve estar visivel
+          cy.get('div[class="notice show error"]').should('be.visible')
+          //Validar se contas e texto E-mail ou senha 
+          cy.get('#login-msg').should('have.text', 'E-mail ou senha inválidos.')
     
   });
 
